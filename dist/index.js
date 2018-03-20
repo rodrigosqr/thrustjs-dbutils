@@ -1,5 +1,5 @@
 var database = require('database')
-var mustache = require('mustache')
+var mustache = require('leonardodelfino/thrustjs-mustache')
 
 var CONSTANTS = {
   limitBind: '_limit_',
