@@ -3,7 +3,7 @@
   "path": "dist",
   "description": "Bitcode utilitário para manipulação de consultas no banco de dados",
   "author": "Leonardo Delfino",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "dependencies" : [
     "thrust-bitcodes/database",
     "leonardodelfino/thrustjs-mustache"
