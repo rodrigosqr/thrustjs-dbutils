@@ -3,7 +3,7 @@
   "path": "dist",
   "description": "Bitcode utilitário para manipulação de consultas no banco de dados",
   "author": "Leonardo Delfino",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "dependencies" : [
     "thrust-bitcodes/filesystem",
     "thrust-bitcodes/database",
