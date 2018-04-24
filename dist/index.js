@@ -112,8 +112,6 @@ function select(table) {
 
   var execute = function () {
     var sql = buildClause(table, columns, where, orderby, limit, offset)
-    // console.log('------------------------------------------------------------------------------------------------------------------------\n',
-    // sql, '\n', 'PARAMS: ', binds)
     return this.db.select(sql, binds)
   }
 
@@ -139,8 +137,12 @@ function imprimirConsultaLog(name, params) {
       sep = '\n'
     }
   }
-  console.log('------------------------------------------------------------------------------------------------------------------------\n',
+  var showQuery = getConfig().parametrosSistema.showQuery
+  showQuery = showQuery === undefined ? true : showQuery
+  if(showQuery){
+    console.log('------------------------------------------------------------------------------------------------------------------------\n',
     sqlPrint, '\n', 'PARAMS: ', params)
+  }
 }
 
 /**
