@@ -1,6 +1,6 @@
 var database = require('database')
 var mustache = require('leonardodelfino/thrustjs-mustache')
-var sqlUtils = require('sql-utils')
+var sqlUtils = require('./sql-utils')
 
 var CONSTANTS = {
   limitBind: '_limit_',
