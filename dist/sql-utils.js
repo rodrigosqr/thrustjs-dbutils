@@ -22,7 +22,7 @@ function carregarConsultas() {
   // Carregando o arquivo de consultas
   var consultas = {}
   pesquisarSqls(getConfig().parametrosSistema.sqlPath, consultas)
-  loadToGlobal('_SYSSQL', consultas)
+  dangerouslyLoadToGlobal('_SYSSQL', consultas)
 }
 
 function carregarConsulta(name, params) {
