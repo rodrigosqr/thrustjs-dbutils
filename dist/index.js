@@ -112,7 +112,8 @@ function select(table, connection) {
 
   var execute = function () {
     var sql = buildClause(table, columns, where, orderby, limit, offset)
-    return this.db.select(sql, binds, connection)
+    var dbInstance = connection || this.db
+    return dbInstance.execute(sql, binds)
   }
 
   return {
@@ -160,8 +161,8 @@ function namedQuery(name, params, connection) {
   var consulta = mustache.render(_SYSSQL[name].trim(), params).replace(/(\n|\t)/g, ' ')
 
   imprimirConsultaLog(name, params)
-
-  return this.db.execute(consulta, params, connection)
+  var dbInstance = connection || this.db
+  return dbInstance.execute(consulta, params)
 }
 
 function createDbInstance(options) {
@@ -177,61 +178,7 @@ function createDbInstance(options) {
     update: db.update,
     delete: db.delete,
     execute: db.execute,
-    executeInSingleTransaction: function(fncScript, context) {
-      var rs = { error: false }
-      var connection = database.dbv1.getConnection()
-  
-      function execute(sql, args) {
-        return db.execute(sql, args, connection)
-      }
-  
-      var insert = function(table, rows) {
-        return db.insert(table, rows, connection)
-      }
-  
-      var update = function(table, row, where) {
-        return db.update(table, row, where, connection)
-      }
-  
-      var deleteFnc = function(table, row) {
-        return db["delete"](table, row, connection)
-      }
-  
-      var deleteByExample = function(table, row) {
-        return db.deleteByExample(table, row, connection)
-      }
-
-      var selectFnc = function (table) {
-        var fnc = select.bind(ctx)
-        return fnc(table, connection)
-      }
-
-      var namedQueryfnc = function (name, params) {
-        var fnc = namedQuery.bind(ctx)
-        return fnc(name, params, connection)
-      }
-  
-      try {
-        connection.setAutoCommit(false)
-        rs.result = fncScript({ 
-          execute: execute,
-          insert: insert,
-          "delete": deleteFnc,
-          update: update,
-          select: selectFnc,
-          namedQuery: namedQueryfnc,
-          deleteByExample: deleteByExample}, context)
-        connection.commit()
-      } catch (ex) {
-        connection.rollback()
-        rs = { error: true, execption: ex }
-      } finally {
-        connection.close()
-        connection = null
-      }
-  
-      return rs
-    }
+    executeInSingleTransaction: db.executeInSingleTransaction
   }
 }
 
